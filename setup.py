@@ -7,10 +7,12 @@ def read(fname):
 setup(
     name = "autormd",
     version = "4.1",
-    scripts=['autormd/autormd.py'],
+    scripts=['autormd/autormd'],
     keywords = "example documentation tutorial",
     packages=['autormd'],
     long_description=read('README'),
+    data_files=[(os.env['HOME'] + '/Documents/inf', ['inf/doc_header', 'inf/essay_header'])],
+                (os.env['HOME'] + '/Documents/src', ['src/main.rmd'])],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Utilities",

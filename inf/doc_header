@@ -1,0 +1,8 @@
+---
+title: <Title>
+output:
+  pdf_document
+header-includes:
+  - \usepackage{multicol}
+  - \usepackage{indentfirst}
+--- 
