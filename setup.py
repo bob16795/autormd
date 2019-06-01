@@ -4,6 +4,11 @@ import os
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+os.makedirs(os.environ['HOME'] + '/Documents/src')
+os.makedirs(os.environ['HOME'] + '/Documents/inf')
+os.makedirs(os.environ['HOME'] + '/Documents/cit')
+os.makedirs(os.environ['HOME'] + '/Documents/pdf')
+
 setup(
     name = "autormd",
     version = "4.1",
