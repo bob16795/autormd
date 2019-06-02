@@ -1,6 +1,6 @@
 # installing
 ## Dependencys:
-
+[![Build Status](https://travis-ci.org/bob16795/autormd.svg?branch=master)](https://travis-ci.org/bob16795/autormd)
 - R
 - texlive-full / texlive-most
 - pandoc
