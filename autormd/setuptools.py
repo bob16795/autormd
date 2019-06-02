@@ -25,4 +25,4 @@ def setup(docdir, cfgdir):
     open(f"{str(Cfgdir)}/essays.csv", 'w+').close()
     print(f"you may want to change tags in {Srcdir / 'main.rmd'}")
     print("before you compile you must add at least one .doc document")
-    pritn("use the command \"autormd add [document name] [section]\"")
+    print("use the command \"autormd add [document name] [section]\"")
