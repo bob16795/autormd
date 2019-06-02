@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 from pathlib import Path
+import os
 def setup(docdir, cfgdir):
     Docdir  = Path(docdir)
     Cfgdir  = Path(cfgdir)
