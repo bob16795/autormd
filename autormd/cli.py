@@ -2,6 +2,7 @@ import click
 import os,sys,re
 import subprocess
 import time
+from .test import _test
 from .commands import _compile, _list, _add, _setup
 from pathlib import Path
 
@@ -9,6 +10,11 @@ from pathlib import Path
 @click.group()
 def main():
     """Document Manager"""
+
+@main.command()
+def test(tolist, docdir, cfgdir):
+    """sets up the config files"""
+    _test(tolist, docdir, cfgdir)
 
 @main.command()
 @click.argument('tolist', type=click.Choice(['docs', 'index']))
