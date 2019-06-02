@@ -30,10 +30,10 @@ def _list(tolist, docdir, cfgdir):
     """Lists the documents or index"""
 
 
-def _compile(nocompile, nocleanup, proccount, docdir, cfgdir, verbose):
+def _compile(compile, cleanup, proccount, docdir, cfgdir, verbose):
     """Compiles docments using RMarkdown."""
-    compiles = not nocompile
-    cleanup = not nocleanup
+    compiles = compile
+    cleanup = cleanup
 
     Docdir  = Path(docdir)
     Cfgdir  = Path(cfgdir)

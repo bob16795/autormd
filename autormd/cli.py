@@ -50,9 +50,9 @@ def add(name, section, index, docdir, cfgdir):
         help="Directory of the documents")
 @click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"), show_default=True,
         help="Directory of the configuration files")
-@click.option('--compile/--nocompile',    default=False, is_flag=True,
+@click.option('--compile/--nocompile',    default=True, is_flag=True,
         help="dont compile the documents")
-@click.option('--cleanup/--nocleanup',    default=False, is_flag=True,
+@click.option('--cleanup/--nocleanup',    default=True, is_flag=True,
         help="dont cleanup after compiling")
 @click.option('--proccount',    default=0, show_default=True,
         help="maximum documents to compile at once")
