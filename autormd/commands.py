@@ -26,10 +26,11 @@ def _add(name, section, index, docdir, cfgdir):
         with open(str(Cfgdir / "sections"), "a") as sections:
             sections.write(f"{section}\n")
 
-def _list():
-    """Lists the documents"""
+def _list(tolist, docdir, cfgdir):
+    """Lists the documents or index"""
 
-def _compile(nocompile, nocleanup, proccount, docdir, cfgdir, index):
+
+def _compile(nocompile, nocleanup, proccount, docdir, cfgdir, verbose):
     """Compiles docments using RMarkdown."""
     compiles = not nocompile
     cleanup = not nocleanup
@@ -119,9 +120,11 @@ def _compile(nocompile, nocleanup, proccount, docdir, cfgdir, index):
                     p = comp(newfile, compiles)
                     if not p is None:
                         queue.append(p)
-                    if proccount != 0:
+                    if proccount > 0:
                         if proccount <= len(queue):
-                            queue[-1].communicate()
+                            out = queue[-1].communicate()
+                            if verbose:
+                                print(out)
                             del queue[-1]
                 else:
                     print(f"bad file type {file}")

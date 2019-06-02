@@ -10,53 +10,57 @@ from pathlib import Path
 def main():
     """Document Manager"""
 
-
 @main.command()
-@click.option('--docdir', '-d', default=str(Path.home() / "Documents"),
+@click.argument('tolist', type=click.Choice(['docs', 'index']))
+@click.option('--docdir', '-d', default=str(Path.home() / "Documents"), show_default=True,
         help="Directory of the documents (default=$home/Documents)")
 @click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"),
-        help="Directory of the configuration files (default=$home/Documents/inf)")
+        help="Directory of the configuration files")
+def list(tolist, docdir, cfgdir):
+    """sets up the config files"""
+    _list(tolist, docdir, cfgdir)
+
+@main.command()
+@click.option('--docdir', '-d', default=str(Path.home() / "Documents"), show_default=True,
+        help="Directory of the documents (default=$home/Documents)")
+@click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"), show_default=True,
+        help="Directory of the configuration files")
 def setup(docdir, cfgdir):
     """sets up the config files"""
     _setup(docdir, cfgdir)
 
 @main.command()
-@click.option('--docdir', '-d', default=str(Path.home() / "Documents"),
-        help="Directory of the documents (default=$home/Documents)")
-@click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"),
-        help="Directory of the configuration files (default=$home/Documents/inf)")
+@click.option('--docdir', '-d', default=str(Path.home() / "Documents"), show_default=True,
+        help="Directory of the documents")
+@click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"), show_default=True,
+        help="Directory of the configuration files")
 @click.argument('name')
 @click.argument('section')
 @click.argument('index', nargs=-1)
-@click.option('--docdir', '-d', default=str(Path.home() / "Documents"),
-        help="Directory of the documents (default=$home/Documents)")
-@click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"),
-        help="Directory of the configuration files (default=$home/Documents/inf)")
+@click.option('--docdir', '-d', default=str(Path.home() / "Documents"), show_default=True,
+        help="Directory of the documents")
+@click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"), show_default=True,
+        help="Directory of the configuration files")
 def add(name, section, index, docdir, cfgdir):
     """Creates a document and adds it to index"""
     _add(name, section, index, docdir, cfgdir)
 
 @main.command()
-def list():
-    """Lists the documents"""
-    _list()
-
-@main.command()
-@click.option('--docdir', '-d', default=str(Path.home() / "Documents"),
-        help="Directory of the documents (default=$home/Documents)")
-@click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"),
-        help="Directory of the configuration files (default=$home/Documents/inf)")
-@click.option('--nocompile',    default=False, is_flag=True,
+@click.option('--docdir', '-d', default=str(Path.home() / "Documents"), show_default=True,
+        help="Directory of the documents")
+@click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"), show_default=True,
+        help="Directory of the configuration files")
+@click.option('--compile/--nocompile',    default=False, is_flag=True,
         help="dont compile the documents")
-@click.option('--nocleanup',    default=False, is_flag=True,
+@click.option('--cleanup/--nocleanup',    default=False, is_flag=True,
         help="dont cleanup after compiling")
-@click.option('--proccount',    default=0,
+@click.option('--proccount',    default=0, show_default=True,
         help="maximum documents to compile at once")
-@click.option('--index', '-i' , default=False, is_flag=True,
-        help="prints the index and exits")
-def compile(nocompile, nocleanup, proccount, docdir, cfgdir, index):
+@click.option('--verbose', '-v' , default=False, is_flag=True,
+        help="print unneeded information")
+def compile(compile, cleanup, proccount, docdir, cfgdir, verbose):
     """Compiles docments using RMarkdown."""
-    _compile(nocompile, nocleanup, proccount, docdir, cfgdir, index)
+    _compile(compile, cleanup, proccount, docdir, cfgdir, verbose)
 
 def start():
     main(obj={})

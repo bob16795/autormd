@@ -6,10 +6,10 @@ def read(fname):
 
 setup(
     name = "autormd",
-    version = "4.1",
+    version = "4.2",
     keywords = "example documentation tutorial",
     packages=['autormd'],
-    long_description=read('README'),
+    long_description=read('README.md'),
     install_requires=[
         'click',
         'pathlib',
