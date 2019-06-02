@@ -17,7 +17,7 @@ def main():
 @click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"),
         help="Directory of the configuration files")
 def list(tolist, docdir, cfgdir):
-    """sets up the config files"""
+    """Lists the Documents or index"""
     _list(tolist, docdir, cfgdir)
 
 @main.command()
@@ -37,10 +37,6 @@ def setup(docdir, cfgdir):
 @click.argument('name')
 @click.argument('section')
 @click.argument('index', nargs=-1)
-@click.option('--docdir', '-d', default=str(Path.home() / "Documents"), show_default=True,
-        help="Directory of the documents")
-@click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"), show_default=True,
-        help="Directory of the configuration files")
 def add(name, section, index, docdir, cfgdir):
     """Creates a document and adds it to index"""
     _add(name, section, index, docdir, cfgdir)

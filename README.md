@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/bob16795/autormd.svg?branch=master)](https://travis-ci.org/bob16795/autormd)
 # installing
 ## Dependencys:
+- Python 3.7
 - R
 - texlive-full / texlive-most
 - pandoc
@@ -47,12 +48,12 @@ to add items to the index
 
 ### .ess (Essay file)
 
-Essay files are prefixed with the contents of ~/doc/inf/essay_header.
+Essay files are prefixed with the contents of (Cfgdir)/essay_header.
 The compiled pdf files are then imported to the end of the main Document before the index.
 
 ### .doc (Document file)
 
-Document files are prefixed with the contents of ~/doc/inf/doc_header.
+Document files are prefixed with the contents of (Cfgdir)/doc_header.
 
 # Markdown Refrences
 
