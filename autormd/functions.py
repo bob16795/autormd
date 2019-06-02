@@ -24,13 +24,6 @@ def clean(Dir):
             except Exception as e:
                 print(e)
 
-def comp(file, compiles):
-    if compiles:
-        result = subprocess.Popen(['R', '-e', f"library(rmarkdown);render(\"{file}\")"],
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        return result
-    return None
-
 def finish(compiles, cleanup, docdir):
     Docdir = Path(docdir)
     Srcdir = Docdir / "src"
@@ -42,15 +35,18 @@ def finish(compiles, cleanup, docdir):
     add_rmd("essay_master.rmd", f)
     f.close
     print("compiling main")
-    p = comp("main.rmd", compiles)
-    if not p is None:
-        p.communicate()
+    p = None
+    move(Tmpdir, "*.log", Pdfdir)
+    move(Tmpdir, "*.pdf", Pdfdir)
+    if compiles:
+        result = subprocess.Popen(['R', '-e', "\"library('rmarkdown');render(\"main.rmd\")\""],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = result
+        p.communicate()[0].decode('utf-8')
     if cleanup:
         purge(Srcdir, "*.log")
         purge(Srcdir, "*_master.rmd")
     move(Srcdir, "main.pdf", Pdfdir)
-    move(Tmpdir, "*.pdf", Pdfdir)
-    move(Tmpdir, "*.log", Pdfdir)
     if cleanup:
         purge(Tmpdir, "*")
         os.rmdir(Tmpdir)

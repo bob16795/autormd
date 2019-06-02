@@ -6,7 +6,7 @@ def read(fname):
 
 setup(
     name = "autormd",
-    version = "4.2",
+    version = "0.4.3",
     keywords = "example documentation tutorial",
     packages=['autormd'],
     long_description=read('README.md'),

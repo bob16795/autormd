@@ -1,5 +1,6 @@
 from .functions import *
 from .setuptools import *
+from .compilers import _doc,_ess
 from pathlib import Path
 
 def _setup(docdir, cfgdir):
@@ -64,6 +65,9 @@ def _compile(compile, cleanup, proccount, docdir, cfgdir, verbose):
 
     os.chdir(Tmpdir)
     queue = []
+    filedict = {
+            "doc" : _doc,
+            "ess" : _ess}
     for section in sorted(sections):
         print(f"started compiling {section}")
         sm = open(f"{Srcdir}/{section}_master.rmd", "w+")
@@ -71,63 +75,21 @@ def _compile(compile, cleanup, proccount, docdir, cfgdir, verbose):
         add_rmd(f"{section}_master.rmd", mm)
         for file in sorted(Path(Srcdir).glob(f"{section}_*")):
             if file != Path(f"{Srcdir}/{section}_master.rmd"):
-                if "doc" == file.name.split(".")[-1]:
-                    subsecname = file.name.replace("The", "")\
-                            .replace(f"{section}_", "")\
-                            .replace(f".doc", "")\
-                            .replace(f"_", " ")
-                    sm.write(f"\n## {subsecname}")
-                    try:
-                        for i in index[file.name]:
-                            indexadd(sm, i)
-                    except:
-                        print(f"add {file.name} to index.csv")
-                    add_rmd(file.name, sm)
-                    newfile=file.name.replace("doc", "rmd")
-                    with open(f"{Tmpdir}/{newfile}", "w+") as tmpfile:
-                        with open(f"{Cfgdir}/doc_header", "r") as header:
-                            for line in header:
-                                addline = line.replace("<Title>", subsecname)
-                                tmpfile.write(addline)
-                        with open(file, "r") as srcfile:
-                            for line in srcfile:
-                                lineadd = line
-                                tmpfile.write(lineadd)
-                    p = comp(newfile, compiles)
-                    if not p is None:
-                        queue.append(p)
-                    if proccount != 0:
-                        if proccount <= len(queue):
-                            queue[-1].communicate()
-                            del queue[-1]
-                elif "ess" == file.name.split(".")[-1]:
-                    newfile=file.name.replace("ess", "rmd")
-                    filetitle = file.name.replace("The", "")\
-                            .replace(f"{section}_", "")\
-                            .replace(f".doc", "")\
-                            .replace(f"_", " ")
-                    with open(f"{Tmpdir}/{newfile}", "w+") as tmpfile:
-                        with open(f"{Srcdir}/essay_master.rmd", "a") as em:
-                            em.write(f"\n\\includepdf[pages=-]({file})\n".replace("(","{").replace(")","}"))
-                        with open(f"{Cfgdir}/essay_header", "r") as header:
-                            for line in header:
-                                addline = line.replace("<Title>", subsecname)
-                                tmpfile.write(addline)
-                        with open(file, "r") as srcfile:
-                            for line in srcfile:
-                                lineadd = line
-                                tmpfile.write(lineadd)
-                    p = comp(newfile, compiles)
-                    if not p is None:
-                        queue.append(p)
-                    if proccount > 0:
-                        if proccount <= len(queue):
-                            out = queue[-1].communicate()
-                            if verbose:
-                                print(out)
-                            del queue[-1]
+                type = file.name.split(".")[-1]
+                if type in filedict:
+                    p = filedict[type](docdir, cfgdir)
+                    p.comp(file, section, sm, index)
+                    p = p.finish(compile)
                 else:
                     print(f"bad file type {file}")
+                if not p is None:
+                    queue.append(p)
+                if proccount > 0:
+                    if proccount <= len(queue):
+                        out = queue[-1].communicate()
+                        if verbose:
+                            print(out)
+                        del queue[-1]
         sm.close()
     for i in queue:
         i.communicate()
