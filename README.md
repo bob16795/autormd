@@ -1,6 +1,11 @@
 # installing
 ## Dependencys:
--
+
+- R
+- texlive-full / texlive-most
+- pandoc
+
+## install
 
 Run the following commands
 
@@ -11,12 +16,17 @@ $ autormd setup
 ```
 
 # Usage
+## adding documents
+
 Create _at least_ one document with:
 
 ```console
-$ autormd
+$ autormd add [document_name] [documentsection]
 ```
+- document_name cannot contain spaces, underscores will be converted to spaces in the compiling process.
+- documentsection is one word
 
+##
 ```console
 $ autormd compile
 ```
