@@ -17,6 +17,14 @@ def _add(name, section, index, docdir, cfgdir):
     indexstr = ",".join(index)
     with open(str(Cfgdir / "index.csv"), 'a') as idx:
         idx.write(f"{filename},{indexstr}")
+    found = False
+    with open(str(Cfgdir / "sections"), "r") as sections:
+        for line in sections:
+            if line == f"{section}\n":
+                found = True
+    if not found:
+        with open(str(Cfgdir / "sections"), "a") as sections:
+            sections.write(f"{section}\n")
 
 def _list():
     """Lists the documents"""
