@@ -7,7 +7,6 @@ def read(fname):
 setup(
     name = "autormd",
     version = "4.1",
-    scripts=['autormd/autormd'],
     keywords = "example documentation tutorial",
     packages=['autormd'],
     long_description=read('README'),
@@ -15,6 +14,9 @@ setup(
         'click',
         'pathlib',
     ],
+    entry_points={
+        'console_scripts': ['autormd = autormd.cli:start']
+    },
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Utilities",

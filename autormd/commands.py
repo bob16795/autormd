@@ -1,90 +1,12 @@
-#!/usr/bin/env python3
-import click
-import os,sys,re
-import subprocess
-import time
+from .functions import *
+from .setuptools import *
 from pathlib import Path
 
-def add_rmd(File,To):
-    To.write(f"\n```[r child=\"{File}\"]\n```\n".replace("[","{").replace("]","}"))
+def _setup(docdir, cfgdir):
+    """sets up the config files"""
+    setup(docdir, cfgdir)
 
-def check(Dir):
-    if not Dir.is_dir():
-        print(f"no such path {Dir}")
-        sys.exit(1)
-
-def clean(Dir):
-    if not Dir.is_dir():
-        os.mkdir(Dir)
-    else:
-        for the_file in os.listdir(Dir):
-            file_path = os.path.join(Dir, the_file)
-            try:
-                if os.path.isfile(file_path):
-                    os.unlink(file_path)
-                #elif os.path.isdir(file_path): shutil.rmtree(file_path)
-            except Exception as e:
-                print(e)
-
-def comp(file, compiles):
-    if compiles:
-        result = subprocess.Popen(['R', '-e', f"library(rmarkdown);render(\"{file}\")"],
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        return result
-    return None
-
-def finish(compiles, cleanup, docdir):
-    Docdir = Path(docdir)
-    Srcdir = Docdir / "src"
-    Pdfdir = Docdir / "pdf"
-    Tmpdir = Docdir / "tmp"
-
-    os.chdir(Srcdir)
-    f = open(Srcdir / "main_master.rmd", "a")
-    add_rmd("essay_master.rmd", f)
-    f.close
-    print("compiling main")
-    p = comp("main.rmd", compiles)
-    if not p is None:
-        p.communicate()
-    if cleanup:
-        purge(Srcdir, "*.log")
-        purge(Srcdir, "*_master.rmd")
-    move(Srcdir, "main.pdf", Pdfdir)
-    move(Tmpdir, "*.pdf", Pdfdir)
-    move(Tmpdir, "*.log", Pdfdir)
-    if cleanup:
-        purge(Tmpdir, "*")
-        os.rmdir(Tmpdir)
-
-def indexadd(File, idx):
-    File.write(f"\n\\index[{idx}]\n".replace("[", "{").replace("]", "}"))
-
-def move(dir, pattern, to):
-    for f in Path(dir).glob(pattern):
-        os.rename(str(f), str(f).replace(str(dir), str(to)))
-
-def purge(dir, pattern):
-    for p in Path(dir).glob(pattern):
-        p.unlink()
-
-@click.group()
-def main():
-    """Document Manager"""
-
-@main.command()
-@click.option('--docdir', '-d', default=str(Path.home() / "Documents"),
-        help="Directory of the documents (default=$home/Documents)")
-@click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"),
-        help="Directory of the configuration files (default=$home/Documents/inf)")
-@click.argument('name')
-@click.argument('section')
-@click.argument('index', nargs=-1)
-@click.option('--docdir', '-d', default=str(Path.home() / "Documents"),
-        help="Directory of the documents (default=$home/Documents)")
-@click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"),
-        help="Directory of the configuration files (default=$home/Documents/inf)")
-def add(name, section, index, docdir, cfgdir):
+def _add(name, section, index, docdir, cfgdir):
     """Creates a document and adds it to index"""
     Docdir  = Path(docdir)
     Cfgdir  = Path(cfgdir)
@@ -96,24 +18,10 @@ def add(name, section, index, docdir, cfgdir):
     with open(str(Cfgdir / "index.csv"), 'a') as idx:
         idx.write(f"{filename},{indexstr}")
 
-@main.command()
-def list():
+def _list():
     """Lists the documents"""
 
-@main.command()
-@click.option('--docdir', '-d', default=str(Path.home() / "Documents"),
-        help="Directory of the documents (default=$home/Documents)")
-@click.option('--cfgdir', '-c', default=str(Path.home() / "Documents" / "inf"),
-        help="Directory of the configuration files (default=$home/Documents/inf)")
-@click.option('--nocompile',    default=False, is_flag=True,
-        help="dont compile the documents")
-@click.option('--nocleanup',    default=False, is_flag=True,
-        help="dont cleanup after compiling")
-@click.option('--proccount',    default=0,
-        help="maximum documents to compile at once")
-@click.option('--index', '-i' , default=False, is_flag=True,
-        help="prints the index and exits")
-def compile(nocompile, nocleanup, proccount, docdir, cfgdir, index):
+def _compile(nocompile, nocleanup, proccount, docdir, cfgdir, index):
     """Compiles docments using RMarkdown."""
     compiles = not nocompile
     cleanup = not nocleanup
@@ -214,6 +122,3 @@ def compile(nocompile, nocleanup, proccount, docdir, cfgdir, index):
         i.communicate()
     mm.close()
     finish(compiles, cleanup, docdir)
-
-if __name__ == "__main__":
-    main()
