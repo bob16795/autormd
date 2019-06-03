@@ -12,11 +12,11 @@ def checkComp(cfgdir, file):
     with open(cfgdir / '.filetimes', 'a') as times:
         ft = os.stat(file).st_mtime
         if str(file) in ti:
-            if ti[str(file)] != str(ft):
+            if ti[str(file)] == str(ft):
+                return False
+            else:
                 times.write(f"\n{file};{ft}")
                 return True
-            else:
-                return False
         else:
             times.write(f"\n{file};{ft}")
             return True

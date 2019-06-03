@@ -1,4 +1,0 @@
-import configparser
-
-def writeDefaultConfig():
-

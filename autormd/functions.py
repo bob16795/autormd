@@ -31,18 +31,17 @@ def finish(compiles, cleanup, docdir):
     Tmpdir = Docdir / "tmp"
 
     os.chdir(Srcdir)
-    f = open(Srcdir / "main_master.rmd", "a")
-    add_rmd("essay_master.rmd", f)
-    f.close
+#    f = open(Srcdir / "main_master.rmd", "a")
+#    add_rmd("essay_master.rmd", f)
+#    f.close
     print("compiling main")
     p = None
     move(Tmpdir, "*.log", Pdfdir)
     move(Tmpdir, "*.pdf", Pdfdir)
     if compiles:
-        result = subprocess.Popen(['R', '-e', "\"library('rmarkdown');render(\"main.rmd\")\""],
+        result = subprocess.Popen(['R', '-e', "library('rmarkdown');render('main.rmd')"],
                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        p = result
-        p.communicate()[0].decode('utf-8')
+        result.communicate()
     if cleanup:
         purge(Srcdir, "*.log")
         purge(Srcdir, "*_master.rmd")
