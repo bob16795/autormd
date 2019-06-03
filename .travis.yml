@@ -8,3 +8,5 @@ install:
 # command to run tests
 script:
   - autormd setup
+  - autormd add lol nope
+  - autormd compile --nocompile
