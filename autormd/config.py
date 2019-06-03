@@ -1,0 +1,4 @@
+import configparser
+
+def writeDefaultConfig():
+

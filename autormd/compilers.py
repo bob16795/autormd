@@ -1,6 +1,7 @@
 import subprocess
 from pathlib import Path
 from .functions import add_rmd, indexadd
+from .speed import checkComp
 
 class compiler:
     def __init__(self, docdir, cfgdir):
@@ -12,7 +13,7 @@ class compiler:
     def comp(self):
         pass
     def finish(self, compiles):
-        if compiles:
+        if compiles and self.cc:
             result = subprocess.Popen(['R', '-e', f"library('rmarkdown');render(\"{self.newfile}\")"],
                     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             return result
@@ -20,6 +21,7 @@ class compiler:
 
 class _ess(compiler):
     def comp(self, file, section, sm, index):
+        self.cc = True
         newfile=file.name.replace("ess", "rmd")
         filetitle = file.name.replace("The_", "")\
                 .replace(f"{section}_", "")\
@@ -40,6 +42,7 @@ class _ess(compiler):
 
 class _doc(compiler):
     def comp(self, file, section, sm, index):
+        self.cc = checkComp(self.Cfgdir, file)
         subsecname = file.name.replace("The_", "")\
                 .replace(f"{section}_", "")\
                 .replace(f".doc", "")\
