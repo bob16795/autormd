@@ -2,7 +2,7 @@ import subprocess
 from pathlib import Path
 from .functions import add_rmd, indexadd
 
-class comper:
+class compiler:
     def __init__(self, docdir, cfgdir):
         self.Docdir  = Path(docdir)
         self.Cfgdir  = Path(cfgdir)
@@ -18,7 +18,7 @@ class comper:
             return result
         return None
 
-class _ess(comper):
+class _ess(compiler):
     def comp(self, file, section, sm, index):
         newfile=file.name.replace("ess", "rmd")
         filetitle = file.name.replace("The_", "")\
@@ -38,9 +38,9 @@ class _ess(comper):
                     tmpfile.write(lineadd)
         self.newfile=newfile
 
-class _doc(comper):
+class _doc(compiler):
     def comp(self, file, section, sm, index):
-        subsecname = file.name.replace("The", "")\
+        subsecname = file.name.replace("The_", "")\
                 .replace(f"{section}_", "")\
                 .replace(f".doc", "")\
                 .replace(f"_", " ")
