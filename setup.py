@@ -13,7 +13,6 @@ setup(
     install_requires=[
         'click',
         'pathlib',
-        'configparser'
     ],
     entry_points={
         'console_scripts': ['autormd = autormd.cli:start']

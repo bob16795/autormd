@@ -2,6 +2,7 @@ import subprocess
 from pathlib import Path
 from .functions import add_rmd, indexadd
 from .speed import checkComp
+from .tags import reptag
 
 class compiler:
     def __init__(self, docdir, cfgdir):
@@ -33,6 +34,7 @@ class _ess(compiler):
             with open(f"{self.Cfgdir}/essay_header", "r") as header:
                 for line in header:
                     addline = line.replace("<Title>", filetitle)
+                    addline = reptag(file, addline)
                     tmpfile.write(addline)
             with open(file, "r") as srcfile:
                 for line in srcfile:
@@ -59,6 +61,7 @@ class _doc(compiler):
             with open(f"{self.Cfgdir}/doc_header", "r") as header:
                 for line in header:
                     addline = line.replace("<Title>", subsecname)
+                    addline = reptag(file, addline)
                     tmpfile.write(addline)
                 tmpfile.write("\n")
             with open(file, "r") as srcfile:
