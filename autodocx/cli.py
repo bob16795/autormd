@@ -2,7 +2,7 @@ import click
 import os,sys,re
 import subprocess
 import time
-from .commands import _compile, _list, _add, _setup
+from autodocx.commands import _compile, _list, _add, _setup
 from pathlib import Path
 
 
@@ -48,15 +48,9 @@ def add(name, section, index, docdir, cfgdir):
         help="Directory of the configuration files")
 @click.option('--compile/--nocompile',    default=True, is_flag=True,
         help="dont compile the documents")
-@click.option('--cleanup/--nocleanup',    default=True, is_flag=True,
-        help="dont cleanup after compiling")
-@click.option('--proccount',    default=0, show_default=True,
-        help="maximum documents to compile at once")
-@click.option('--verbose', '-v' , default=False, is_flag=True,
-        help="print unneeded information")
-def compile(compile, cleanup, proccount, docdir, cfgdir, verbose):
+def compile(compile, docdir, cfgdir):
     """Compiles docments using RMarkdown."""
-    _compile(compile, cleanup, proccount, docdir, cfgdir, verbose)
+    _compile(compile, docdir, cfgdir)
 
 def start():
     main(obj={})

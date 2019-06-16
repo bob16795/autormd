@@ -5,17 +5,19 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name = "autormd",
-    version = "0.4.4",
+    name = "autodocx",
+    version = "0.1.0",
     keywords = "example documentation tutorial",
-    packages=['autormd'],
+    packages=['autodocx', 'autodocx.formaters'],
     long_description=read('README.md'),
     install_requires=[
         'click',
         'pathlib',
+        'python-docx',
+        'pypiwin32'
     ],
     entry_points={
-        'console_scripts': ['autormd = autormd.cli:start']
+        'console_scripts': ['autodocx = autodocx.cli:start']
     },
     classifiers=[
         "Development Status :: 3 - Alpha",

@@ -4,9 +4,14 @@ python:
   - "3.6-dev"
 # command to install dependencies
 install:
-  - python setup.py install
+  - apt-get update -qy
+  - apt-get install -y python3-dev python3-pip
+  - apt-get install -y r-base texlive-full
+  - R -e "packages.install('rmarkdown')"
+  - pip3 install setuptools
+  - python3 setup.py install
 # command to run tests
 script:
   - autormd setup
   - autormd add lol nope
-  - autormd compile --nocompile
+  - autormd compile
