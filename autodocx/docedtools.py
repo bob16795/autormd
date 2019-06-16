@@ -20,6 +20,7 @@ def get_sub_toc(file, l, sec_num):
     #    file_cached[i] = file_cached[i].replace("\n", " ")
     z = 0
     y = 0
+    x = 0
     for i in file_cached:
         if i[:6] == "##### ":
             x += 1
