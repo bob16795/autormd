@@ -5,8 +5,11 @@ import sys
 import time
 from pathlib import Path
 
-import win32con
-import win32gui
+try:
+        import win32con
+        import win32gui
+except:
+        pass
 
 from autodocx.doced import render_main
 
