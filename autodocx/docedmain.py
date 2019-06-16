@@ -2,8 +2,10 @@ import inspect
 import os
 import docx
 from pathlib import Path
-
-import win32com.client
+try:
+    import win32com.client
+except:
+    pass
 
 from autodocx.docedtools import *
 
