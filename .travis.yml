@@ -8,6 +8,6 @@ install:
   - python3 setup.py install
 # command to run tests
 script:
-  - autormd setup
-  - autormd add lol nope
-  - autormd compile --linux
+  - autodocx setup
+  - autodocx add lol nope
+  - autodocx compile --linux
