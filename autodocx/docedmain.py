@@ -33,7 +33,7 @@ def create_main(docdir, cfgdir):
 
     doc.save(f'{Pdfdir}/main.docx')
 
-def render_main(docdir, cfgdir):
+def render_main(linux, docdir, cfgdir):
     Docdir = Path(docdir)
     Cfgdir = Path(cfgdir)
     Srcdir = Docdir / "src"
@@ -89,7 +89,8 @@ def render_main(docdir, cfgdir):
     add_index_section(doc)
     print(" + saving")
     doc.save(f'{docdir}/pdf/main.docx')
-    update_toc(f'{docdir}/pdf/main.docx')
+    if not linux:
+        update_toc(f'{docdir}/pdf/main.docx')
 
 def update_toc(docx_file):
     word = win32com.client.DispatchEx("Word.Application")

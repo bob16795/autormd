@@ -31,10 +31,11 @@ def _list(tolist, docdir, cfgdir):
     """Lists the documents or index"""
 
 
-def _compile(compile, docdir, cfgdir):
+def _compile(linux, compile, docdir, cfgdir):
     """Compiles docments using RMarkdown."""
     compiles = compile
-    close_word()
+    if not linux:
+        close_word()
 
     Docdir  = Path(docdir)
     Cfgdir  = Path(cfgdir)
@@ -69,8 +70,8 @@ def _compile(compile, docdir, cfgdir):
                 type = file.name.split(".")[-1]
                 if type in filedict:
                     p = filedict[type](docdir, cfgdir)
-                    p.comp(file, section, index)
+                    p.comp(file, section, index, linux)
                     p.finish(compile)
                 else:
                     print(f"bad file type {file}")
-    finish(compiles, docdir, cfgdir)
+    finish(linux, compiles, docdir, cfgdir)

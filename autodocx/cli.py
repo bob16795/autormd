@@ -48,9 +48,11 @@ def add(name, section, index, docdir, cfgdir):
         help="Directory of the configuration files")
 @click.option('--compile/--nocompile',    default=True, is_flag=True,
         help="dont compile the documents")
-def compile(compile, docdir, cfgdir):
+@click.option('--linux/--windows',    default=True, is_flag=True,
+        help="dont compile the documents")
+def compile(linux, compile, docdir, cfgdir):
     """Compiles docments using RMarkdown."""
-    _compile(compile, docdir, cfgdir)
+    _compile(linux, compile, docdir, cfgdir)
 
 def start():
     main(obj={})

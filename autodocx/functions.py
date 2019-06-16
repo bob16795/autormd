@@ -28,14 +28,14 @@ def clean(Dir):
             except Exception as e:
                 print(e)
 
-def finish(compiles, docdir, cfgdir):
+def finish(linux, compiles, docdir, cfgdir):
     Docdir = Path(docdir)
     Srcdir = Docdir / "src"
 
     os.chdir(Srcdir)
     print("compiling main")
     if compiles:
-        render_main(docdir, cfgdir)
+        render_main(linux, docdir, cfgdir)
 
 def move(dir, pattern, to):
     for f in Path(dir).glob(pattern):

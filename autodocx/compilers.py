@@ -24,10 +24,11 @@ class compiler:
             self.doc.save(self.Pdfdir / self.newfile)
 
 class _ess(compiler):
-    def comp(self, file, section, index):
+    def comp(self, file, section, index, linux):
         self.cc = True
         self.newfile = file.name.replace("ess", "docx")
-        close_word(self.newfile)
+        if not linux:
+            close_word(self.newfile)
         self.doc = docx.Document()
         self.file = file
         self.section = section
@@ -35,10 +36,11 @@ class _ess(compiler):
         _ess_format(self.doc)
 
 class _doc(compiler):
-    def comp(self, file, section, index):
+    def comp(self, file, section, index, linux):
         self.cc = True
         self.newfile = file.name.replace("doc", "docx")
-        close_word(self.newfile)
+        if not linux:
+            close_word(self.newfile)
         self.doc = docx.Document(self.Cfgdir / "sub.docx")
         self.file = file
         self.section = section
