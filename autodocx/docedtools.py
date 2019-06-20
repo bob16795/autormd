@@ -399,18 +399,11 @@ def add_to_doc(doc, parsed, file, main):
             elif type(i) is CodeNode:
                 code = ""
                 for j in i.sentences:
-                    if j.value != " ":
-                        code += (j.value + "\n")
+                    if j.type == "TEXT":
+                        if j.value != " ":
+                            code += (j.value + "\n")
                 fmt = Word()
-                highlight(code, PythonLexer(), fmt, outfile=doc)
-                # if j.value != "" and j.value != " " and j.type == "TEXT":
-                #    p = doc.add_paragraph(j.value, style = "Source Code")
-                # elif j.value != "" and j.value != " " and j.type == "EMPH":
-                #    p = doc.add_paragraph(j.value, style = "Source Code")
-                #    p.italic = True
-                # elif j.value != "" and j.value != " " and j.type == "BOLD":
-                #    p = doc.add_paragraph(j.value, style = "Source Code")
-                #    p.bold = True
+                highlight(code.strip("\n"), PythonLexer(), fmt, outfile=doc)
             else:
                 p = doc.add_paragraph(style="Normal")
                 for j in i.sentences:

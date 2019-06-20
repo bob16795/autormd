@@ -18,9 +18,6 @@ class Word(Formatter):
             start = end = ''
             # a style item is a tuple in the following form:
             # colors are readily specified in hex: 'RRGGBB'
-            if style['underline']:
-                start += '<u>'
-                end = '</u>' + end
             if style['color'] == None:
                 color = RGBColor.from_string("000000")
             else:
@@ -67,10 +64,9 @@ class Word(Formatter):
                 lasttype = ttype
 
         # if something is left in the buffer, write it to the
-        # output file, then close the opened <pre> tag
         if lastval:
             color, bold, italic, underline = self.styles[lasttype]
-            r = self.p.add_run(lastval)
+            r = self.p.add_run(lastval.replace("\n", ""))
             r.font.color.rgb = color
             r.font.bold = bold
             r.font.italic = italic

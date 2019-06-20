@@ -74,7 +74,7 @@ def tokenize(file_cached):
                 else:
                     text = f"{text}{j}"
         if text != "":
-            tokens.append(Token("TEXT", text, f"line {x}, col {y}"))
-        tokens.append(Token("NEWLINE", "", f"line {x}, col {y}"))
+            tokens.append(Token("TEXT", text, f"end of line {x}"))
+        tokens.append(Token("NEWLINE", "", f"end of file"))
     tokens.append(Token("EOF", "", f"line {x}, col {y}"))
     return Token_List(tokens)

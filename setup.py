@@ -8,12 +8,14 @@ if os.name == 'nt':
         name = "autodocx",
         version = "0.1.0",
         keywords = "example documentation tutorial",
-        packages=['autodocx', 'autodocx.formaters'],
+        packages=['autodocx', 'autodocx.formaters', 'autodocx.data'],
         long_description=read('README.md'),
         install_requires=[
             'click',
             'pathlib',
             'python-docx',
+            'matplotlib',
+            'pygments',
             'pypiwin32'
         ],
         entry_points={
@@ -24,13 +26,19 @@ if os.name == 'nt':
             "Topic :: Utilities",
             "License :: OSI Approved :: BSD License",
         ],
+        package_data={
+            'autodocx': [
+                'data/*'
+            ],
+        },
+        include_package_data=True,
     )
 else:
     setup(
         name = "autodocx",
         version = "0.1.0",
         keywords = "example documentation tutorial",
-        packages=['autodocx', 'autodocx.formaters'],
+        packages=['autodocx', 'autodocx.formaters', 'autodocx.data'],
         long_description=read('README.md'),
         install_requires=[
             'click',
