@@ -45,7 +45,7 @@ else:
             'pathlib',
             'python-docx',
             'matplotlib',
-            'pygments'
+            'pygments',
         ],
         entry_points={
             'console_scripts': ['autodocx = autodocx.cli:start']
@@ -55,4 +55,10 @@ else:
             "Topic :: Utilities",
             "License :: OSI Approved :: BSD License",
         ],
+        package_data={
+            'autodocx': [
+                'data/*'
+            ],
+        },
+        include_package_data=True,
     )
