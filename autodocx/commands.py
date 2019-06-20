@@ -1,17 +1,19 @@
 from autodocx.functions import clean, finish, check, close_word, purge
 from autodocx.setuptools import *
-from autodocx.compilers import _doc,_ess
+from autodocx.compilers import _doc, _ess
 from pathlib import Path
+
 
 def _setup(docdir, cfgdir):
     """sets up the config files"""
     setup(docdir, cfgdir)
 
+
 def _add(name, section, index, docdir, cfgdir):
     """Creates a document and adds it to index"""
-    Docdir  = Path(docdir)
-    Cfgdir  = Path(cfgdir)
-    Srcdir  = Docdir / "src"
+    Docdir = Path(docdir)
+    Cfgdir = Path(cfgdir)
+    Srcdir = Docdir / "src"
 
     filename = f"{section}_{name}.doc"
     open(f"{str(Srcdir)}/{filename}", 'w+').close()
@@ -27,6 +29,7 @@ def _add(name, section, index, docdir, cfgdir):
         with open(str(Cfgdir / "sections"), "a") as sections:
             sections.write(f"{section}\n")
 
+
 def _list(tolist, docdir, cfgdir):
     """Lists the documents or index"""
 
@@ -37,11 +40,11 @@ def _compile(linux, compile, docdir, cfgdir):
     if not linux:
         close_word()
 
-    Docdir  = Path(docdir)
-    Cfgdir  = Path(cfgdir)
-    Srcdir  = Docdir / "src"
-    Pdfdir  = Docdir / "pdf"
-    Imgdir  = Docdir / "img"
+    Docdir = Path(docdir)
+    Cfgdir = Path(cfgdir)
+    Srcdir = Docdir / "src"
+    Pdfdir = Docdir / "pdf"
+    Imgdir = Docdir / "img"
 
     check(Docdir)
     check(Srcdir)
@@ -61,8 +64,8 @@ def _compile(linux, compile, docdir, cfgdir):
             index[data[0]] = data[1:]
 
     filedict = {
-            "doc" : _doc,
-            "ess" : _ess}
+        "doc": _doc,
+        "ess": _ess}
     for section in sorted(sections):
         print(f"compiling {section}")
         for file in sorted(Path(Srcdir).glob(f"{section}_*")):

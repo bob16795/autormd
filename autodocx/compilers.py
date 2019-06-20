@@ -9,19 +9,23 @@ from pathlib import Path
 from autodocx.doced import make_sub
 from autodocx.functions import *
 
+
 class compiler:
     def __init__(self, docdir, cfgdir):
-        self.Docdir  = Path(docdir)
-        self.Cfgdir  = Path(cfgdir)
-        self.Srcdir  = self.Docdir / "src"
-        self.Pdfdir  = self.Docdir / "pdf"
-        self.Tmpdir  = self.Docdir / "tmp"
+        self.Docdir = Path(docdir)
+        self.Cfgdir = Path(cfgdir)
+        self.Srcdir = self.Docdir / "src"
+        self.Pdfdir = self.Docdir / "pdf"
+        self.Tmpdir = self.Docdir / "tmp"
+
     def comp(self):
         pass
+
     def finish(self, compiles):
         if compiles and self.cc:
             make_sub(self.doc, self.file, self.section, self.header)
             self.doc.save(self.Pdfdir / self.newfile)
+
 
 class _ess(compiler):
     def comp(self, file, section, index, linux):
@@ -34,6 +38,7 @@ class _ess(compiler):
         self.section = section
         self.header = _ess_header
         _ess_format(self.doc)
+
 
 class _doc(compiler):
     def comp(self, file, section, index, linux):

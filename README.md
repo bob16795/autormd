@@ -1,6 +1,9 @@
 [![Build Status](https://travis-ci.org/bob16795/autormd.svg?branch=master)](https://travis-ci.org/bob16795/autormd)
+
 # installing
+
 ## Dependencys:
+
 - Python 3.7
 - R
 - texlive-full / texlive-most
@@ -10,10 +13,10 @@
 
 Run the following commands
 
-```console
-$ sudo python3 setup.py install
-$ R -e 'install.packages("rmarkdown")'
-$ autormd setup
+```
+> sudo python3 setup.py install
+> R -e 'install.packages("rmarkdown")'
+> autormd setup
 ```
 
 # Usage
@@ -21,15 +24,17 @@ $ autormd setup
 
 Create _at least_ one document with:
 
-```console
-$ autormd add [document_name] [documentsection]
 ```
-- document_name cannot contain spaces, underscores will be converted to spaces in the compiling process.
-- documentsection is one word
+> autormd add [document\_name] [document\_section]
+```
 
-##
-```console
-$ autormd compile
+- document\_name cannot contain spaces, underscores will be converted to spaces in the compiling process.
+- document\_section is one word
+
+## compiling documents
+
+```
+> autormd compile
 ```
 
 # Features
@@ -48,12 +53,12 @@ to add items to the index
 
 ### .ess (Essay file)
 
-Essay files are prefixed with the contents of (Cfgdir)/essay_header.
+Essay files are prefixed with the contents of (Cfgdir)/essay\_header.
 The compiled pdf files are then imported to the end of the main Document before the index.
 
 ### .doc (Document file)
 
-Document files are prefixed with the contents of (Cfgdir)/doc_header.
+Document files are prefixed with the contents of (Cfgdir)/doc\_header.
 
 # Markdown Refrences
 

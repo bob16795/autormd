@@ -23,6 +23,7 @@ def add_to_main(doc, file, title, idx):
     parsed = parse(tokens, file)
     add_to_doc(doc, parsed, file, True)
 
+
 def create_main(docdir, cfgdir):
     Docdir = Path(docdir)
     Cfgdir = Path(cfgdir)
@@ -34,6 +35,7 @@ def create_main(docdir, cfgdir):
     add_toc_section(doc)
 
     doc.save(f'{Pdfdir}/main.docx')
+
 
 def render_main(linux, docdir, cfgdir):
     Docdir = Path(docdir)
@@ -60,39 +62,45 @@ def render_main(linux, docdir, cfgdir):
         add_pagenum(s.header, section)
         sectPr = s._sectPr
         cols = sectPr.xpath('./w:cols')[0]
-        cols.set(qn('w:num'),'1')
+        cols.set(qn('w:num'), '1')
         doc.add_paragraph(f" {section}", "Heading 1")
         s = doc.add_section(0)
         sectPr = s._sectPr
         cols = sectPr.xpath('./w:cols')[0]
-        cols.set(qn('w:num'),'2')
-        for z, file in enumerate(sorted(Path(Srcdir).glob(f"{section}_*.doc"))):
+        cols.set(qn('w:num'), '2')
+        for z, file in enumerate(sorted(Path(Srcdir).glob(f"{section}_*"))):
             title = file.name.replace("The_", "")\
-                    .replace(f"{section}_", "")\
-                    .replace(f".doc", "")\
-                    .replace(f"_", " ")
-            queue = [f"{title}\t{y}.{z}"]
-            queue = get_sub_toc(file, queue, f"{y}.{z}.")
+                .replace(f"{section}_", "")\
+                .replace(f".doc", "")\
+                .replace(f".ess", "")\
+                .replace(f"_", " ")
+            queue = [f"{title}\t{y+1}.{z+1}"]
+            queue = get_sub_toc(file, queue, f"{y+1}.{z+1}.")
             for q in queue:
                 p = doc.add_paragraph(q, "Chapter toc")
                 p.paragraph_format.tab_stops.add_tab_stop(Inches(.125))
-                p.paragraph_format.tab_stops.add_tab_stop(Inches(2), 2)
+                p.paragraph_format.tab_stops.add_tab_stop(Inches(2.125), 2)
         s = doc.add_section(2)
         sectPr = s._sectPr
         cols = sectPr.xpath('./w:cols')[0]
-        cols.set(qn('w:num'),'1')
+        cols.set(qn('w:num'), '1')
 
-        for z, file in enumerate(sorted(Path(Srcdir).glob(f"{section}_*.doc"))):
+        for z, file in enumerate(sorted(Path(Srcdir).glob(f"{section}_*"))):
             title = file.name.replace("The_", "")\
-                    .replace(f"{section}_", "")\
-                    .replace(f".doc", "")\
-                    .replace(f"_", " ")
-            add_to_main(doc, file, f" {title}", index[file.name])
+                .replace(f"{section}_", "")\
+                .replace(f".doc", "")\
+                .replace(f".ess", "")\
+                .replace(f"_", " ")
+            if ".ess" in file.name:
+                add_to_main(doc, file, f" {title}", [""])
+            if ".doc" in file.name:
+                add_to_main(doc, file, f" {title}", index[file.name])
     add_index_section(doc)
     print(" + saving")
     doc.save(f'{docdir}/pdf/main.docx')
     if not linux:
         update_toc(f'{docdir}/pdf/main.docx')
+
 
 def update_toc(docx_file):
     word = win32com.client.DispatchEx("Word.Application")

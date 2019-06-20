@@ -1,4 +1,6 @@
 import docx
+
+
 def list_number(doc, par, prev=None, level=None, num=True):
     try:
         """
@@ -43,9 +45,10 @@ def list_number(doc, par, prev=None, level=None, num=True):
             style = par.style.style_id
             return (
                 'w:abstractNum['
-                    '{single}w:lvl[@w:ilvl="{level}"]/w:pStyle[@w:val="{style}"]'
+                '{single}w:lvl[@w:ilvl="{level}"]/w:pStyle[@w:val="{style}"]'
                 ']/@w:abstractNumId'
             ).format(style=style, **xpath_options[prefer_single])
+
         def type_xpath(prefer_single=True):
             """
             The type is from the outer-scope variable ``num``.
@@ -53,7 +56,7 @@ def list_number(doc, par, prev=None, level=None, num=True):
             type = 'decimal' if num else 'bullet'
             return (
                 'w:abstractNum['
-                    '{single}w:lvl[@w:ilvl="{level}"]/w:numFmt[@w:val="{type}"]'
+                '{single}w:lvl[@w:ilvl="{level}"]/w:numFmt[@w:val="{type}"]'
                 ']/@w:abstractNumId'
             ).format(type=type, **xpath_options[prefer_single])
 
