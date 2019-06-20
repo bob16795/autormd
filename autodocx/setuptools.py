@@ -32,6 +32,8 @@ def copy_config_files(cfgdir, which):
         copy(cfgdir, 'data/empty', 'index.csv')
     elif which == 'essayscsv' or which == 'all':
         copy(cfgdir, 'data/empty', 'essays.csv')
+    elif which == 'sections' or which == 'all':
+        copy(cfgdir, 'data/empty', 'sections')
     else:
         sys.stderr.write("Unknown config file `%s'\n" % which)
 
