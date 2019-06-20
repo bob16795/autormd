@@ -26,15 +26,15 @@ def copy_config_files(cfgdir, which):
                 sys.stderr.write("  ERROR: %s\n" % str(ex))
     if which == 'maintemp' or which == 'all':
         copy(cfgdir, 'data/main.docx', 'main.docx')
-    elif which == 'subtemp' or which == 'all':
+    if which == 'subtemp' or which == 'all':
         copy(cfgdir, 'data/sub.docx', 'sub.docx')
-    elif which == 'indexcsv' or which == 'all':
+    if which == 'indexcsv' or which == 'all':
         copy(cfgdir, 'data/empty', 'index.csv')
-    elif which == 'essayscsv' or which == 'all':
+    if which == 'essayscsv' or which == 'all':
         copy(cfgdir, 'data/empty', 'essays.csv')
-    elif which == 'sections' or which == 'all':
+    if which == 'sections' or which == 'all':
         copy(cfgdir, 'data/empty', 'sections')
-    else:
+    if which not in ('sections', 'essayscsv', 'indexcsv', 'subtemp', 'maintemp', 'all'):
         sys.stderr.write("Unknown config file `%s'\n" % which)
 
 def relpath(cfgdir, *paths):
